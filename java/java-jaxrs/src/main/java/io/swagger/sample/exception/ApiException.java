@@ -16,7 +16,7 @@
 
 package io.swagger.sample.exception;
 
-public class ApiException extends Exception{
+public class ApiException extends RuntimeException{
   private int code;
   public ApiException (int code, String msg) {
     super(msg);

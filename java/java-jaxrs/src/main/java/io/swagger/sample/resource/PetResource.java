@@ -19,8 +19,12 @@ package io.swagger.sample.resource;
 import io.swagger.annotations.*;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.sample.data.PetData;
+import io.swagger.sample.exception.ApiException;
+import io.swagger.sample.exception.ApiExceptionMapper;
 import io.swagger.sample.model.Pet;
 import io.swagger.sample.exception.NotFoundException;
+
+import com.sun.jersey.api.container.MappableContainerException;
 
 import java.io.*;
 
@@ -50,16 +54,12 @@ public class PetResource {
     authorizations = @Authorization(value = "api_key")
   )
   @ApiResponses(value = { @ApiResponse(code = 400, message = "Invalid ID supplied"),
-      @ApiResponse(code = 404, message = "Pet not found") })
+      @ApiResponse(code = 404, message = "Pet not found", response=ApiException.class) })
   public Response getPetById(
       @ApiParam(value = "ID of pet that needs to be fetched", allowableValues = "range[1,5]", required = true) @PathParam("petId") Long petId)
-      throws NotFoundException {
-    Pet pet = petData.getPetbyId(petId);
-    if (pet != null) {
-      return Response.ok().entity(pet).build();
-    } else {
-      throw new NotFoundException(404, "Pet not found");
-    }
+          throws ApiException {
+          ApiException ex = new ApiException(500, "test exception");
+          return Response.status(500).entity(ex).build();
   }
 
   @GET
