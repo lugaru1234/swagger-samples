@@ -18,6 +18,7 @@ package io.swagger.sample.resource;
 
 import io.swagger.annotations.*;
 import io.swagger.sample.data.PetData;
+import io.swagger.sample.model.CollectionParameters;
 import io.swagger.sample.model.Pet;
 
 import javax.ws.rs.core.Response;
@@ -93,5 +94,16 @@ public class PetResource {
   public Response findPetsByTags(
       @ApiParam(value = "Tags to filter by", required = true, allowMultiple = true) @QueryParam("tags") String tags) {
     return Response.ok(petData.findPetByTags(tags)).build();
+  }
+
+
+
+  @GET
+  @ApiOperation(
+          value="Gets a collection of Feedbacks",
+          responseContainer = "List"
+  )
+  public Response getFeedbacks(@BeanParam CollectionParameters collectionParameters) {
+    return Response.ok().build();
   }
 }
